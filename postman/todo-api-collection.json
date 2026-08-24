@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "Collaborative To-Do List API",
+    "description": "Requests for demonstrating every required task endpoint.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "taskId", "value": "REPLACE_WITH_TASK_ID" }
+  ],
+  "item": [
+    {
+      "name": "1. Create Task",
+      "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Complete REST API assignment\",\n  \"description\": \"Finish the backend project\",\n  \"isCompleted\": false,\n  \"dueDate\": \"2026-08-30\"\n}" }, "url": "{{baseUrl}}/api/tasks" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('Created', function () { pm.response.to.have.status(201); });", "if (pm.response.code === 201) pm.collectionVariables.set('taskId', pm.response.json()._id);"] } }]
+    },
+    { "name": "2. Get All Tasks", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks" } },
+    { "name": "3. Get Completed Tasks", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks?completed=true" } },
+    { "name": "4. Get Incomplete Tasks", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks?completed=false" } },
+    { "name": "5. Get One Task", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/{{taskId}}" } },
+    {
+      "name": "6. Update Task",
+      "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"isCompleted\": true,\n  \"description\": \"Updated description\"\n}" }, "url": "{{baseUrl}}/api/tasks/{{taskId}}" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('Updated', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    { "name": "7. Delete Task", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/tasks/{{taskId}}" } },
+    { "name": "8. Invalid Create Task", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"description\": \"Missing title\"\n}" }, "url": "{{baseUrl}}/api/tasks" } },
+    { "name": "9. Non-existing Task", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/000000000000000000000000" } },
+    { "name": "10. Invalid Task ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/not-an-object-id" } }
+  ]
+}

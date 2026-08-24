@@ -1,0 +1,50 @@
+### Health check
+GET http://localhost:5000/
+
+### Create task
+POST http://localhost:5000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Complete assignment",
+  "description": "Finish the REST API project",
+  "isCompleted": false,
+  "dueDate": "2026-08-30"
+}
+
+### Get all tasks
+GET http://localhost:5000/api/tasks
+
+### Get completed tasks
+GET http://localhost:5000/api/tasks?completed=true
+
+### Get incomplete tasks
+GET http://localhost:5000/api/tasks?completed=false
+
+### Get one task
+GET http://localhost:5000/api/tasks/REPLACE_WITH_TASK_ID
+
+### Update a task
+PATCH http://localhost:5000/api/tasks/REPLACE_WITH_TASK_ID
+Content-Type: application/json
+
+{
+  "isCompleted": true
+}
+
+### Delete a task
+DELETE http://localhost:5000/api/tasks/REPLACE_WITH_TASK_ID
+
+### Invalid create request
+POST http://localhost:5000/api/tasks
+Content-Type: application/json
+
+{
+  "description": "This request has no title"
+}
+
+### Invalid task ID
+GET http://localhost:5000/api/tasks/not-an-object-id
+
+### Non-existing task
+GET http://localhost:5000/api/tasks/000000000000000000000000
